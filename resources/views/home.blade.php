@@ -33,7 +33,7 @@
     <div class="row mt-4">
         <div class="col-md-4">
             <div class="card shadow">
-                <img src="https://source.unsplash.com/300x200/?cake,chocolate" class="card-img-top" alt="Coklat">
+                <img src="https://th.bing.com/th/id/OIP.FzUEexYrs2826-vRvJ73MgHaFP?rs=1&pid=ImgDetMain" class="card-img-top" alt="Coklat">
                 <div class="card-body text-center">
                     <h5 class="card-title">Bika Ambon Coklat</h5>
                     <p class="text-muted">Kelezatan coklat berpadu dengan tekstur lembut Bika Ambon.</p>

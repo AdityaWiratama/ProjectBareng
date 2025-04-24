@@ -17,19 +17,27 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'flavor' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'phone' => 'required|integer',
+        //     'address' => 'required|string|max:255',
+        //     'quantity' => 'required|interger',
+        //     'status' => 'required|string|max:255',
+        // ]);
     
         // Simpan ke database
+
+        $status="pending";
         Order::create([
             'name' => $request->name,
-            'flavor' => $request->flavor,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'quantity' => $request->quantity,
+            'status' => $status,
         ]);
     
         // Redirect ke halaman sukses
-        return redirect()->route('orders.success')->with('success', 'Pesanan berhasil dibuat!');
+        return redirect()->route('order.success')->with('success', 'Pesanan berhasil dibuat!');
     }
     
 

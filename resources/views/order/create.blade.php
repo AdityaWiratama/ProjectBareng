@@ -12,7 +12,7 @@
             <img src="{{ asset('images/bika-ambon.jpg') }}" class="img-fluid rounded shadow" alt="Bika Ambon">
         </div>
         <div class="col-md-6">
-            <form action="/order/submit" method="POST" class="p-4 border rounded shadow-sm bg-light">
+            <form action="{{ route('order.store') }}" method="POST" class="p-4 border rounded shadow-sm bg-light">
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label fw-bold">Nama Lengkap</label>
