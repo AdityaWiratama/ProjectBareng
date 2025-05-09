@@ -6,24 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   public function up()
-{
-    Schema::create('orders', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('phone');
-        $table->text('address');
-        $table->integer('quantity');
-        $table->enum('status', ['pending', 'processed', 'delivered'])->default('pending');
-        $table->timestamps();
-    });
-}
+    public function up()
+    {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('phone');
+            $table->text('address');
+            $table->integer('quantity');
+            $table->string('flavor');  // Menambahkan kolom flavor
+            $table->enum('status', ['pending', 'processed', 'delivered'])->default('pending');
+            $table->timestamps();
+        });
+    }
 
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('orders');
     }
