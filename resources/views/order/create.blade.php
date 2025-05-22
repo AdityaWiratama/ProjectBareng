@@ -37,7 +37,7 @@
                     <label for="flavor" class="form-label fw-bold">Pilih Varian Rasa</label>
                     <select class="form-select" id="flavor" name="flavor" required>
                         <option value="original">Original</option>
-                        <option value="durian">Durian</option>
+                        <option value="durian">ubi ungu</option>
                         <option value="matcha">Matcha</option>
                         <option value="coklat">Coklat</option>
                         <option value="pandan">Pandan</option>
@@ -92,10 +92,10 @@
             <div class="col-md-4 mb-4">
                 <a href="{{ route('order.create', ['product' => 'durian']) }}">
                     <div class="card shadow border-0">
-                        <img src="https://img-global.cpcdn.com/recipes/7d1727f5e2843ae1/680x482cq70/bika-ambon-durian-foto-resep-utama.jpg" class="card-img-top" alt="Durian">
+                        <img src="https://img-global.cpcdn.com/recipes/c0acf7368481ec21/680x482cq70/bika-ambon-red-velvet-gluten-free-foto-resep-utama.jpg">
                         <div class="card-body text-center">
-                            <h5 class="card-title">Bika Ambon Durian</h5>
-                            <p class="text-muted">Aroma durian khas yang menggoda selera.</p>
+                            <h5 class="card-title">Bika Ambon Red Velvet</h5>
+                            <p class="text-muted">Kelembutan Bika Ambon berpadu dengan rasa manis khas Red Velvet dan aroma vanila yang menggoda. Pilihan pas untuk pencinta rasa modern.</p>
                             <p class="fw-bold text-success">Rp 35.000</p>
                         </div>
                     </div>
@@ -104,10 +104,10 @@
             <div class="col-md-4 mb-4">
                 <a href="{{ route('order.create', ['product' => 'matcha']) }}">
                     <div class="card shadow border-0">
-                        <img src="https://img-global.cpcdn.com/recipes/2a0fdf18c502cc94/680x482cq70/bika-ambon-matcha-foto-resep-utama.jpg" class="card-img-top" alt="Matcha">
+                        <img src="https://img-global.cpcdn.com/recipes/d18fc3ad3e7788f7/680x482cq70/bika-ambon-ubi-ungu-pr_kuetradisionalberserat-foto-resep-utama.jpg" class="card-img-top" alt="Matcha">
                         <div class="card-body text-center">
-                            <h5 class="card-title">Bika Ambon Matcha</h5>
-                            <p class="text-muted">Rasa unik matcha untuk pecinta teh hijau.</p>
+                            <h5 class="card-title">Bika Ambon Ubi Unggu</h5>
+                            <p class="text-muted">Rasa manis alami dari ubi ungu berpadu dengan tekstur kenyal khas Bika Ambon. Warnanya yang cantik dan cita rasanya yang lembut cocok untuk camilan sehat dan lezat.</p>
                             <p class="fw-bold text-success">Rp 32.000</p>
                         </div>
                     </div>

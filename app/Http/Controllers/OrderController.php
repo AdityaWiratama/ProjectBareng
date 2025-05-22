@@ -16,13 +16,12 @@ class OrderController extends Controller
 
     public function create(Request $request)
     {
-        // Ambil informasi produk yang dipilih (promo atau varian)
+        // Ambil informasi produk yang dipilih
         $product = $this->getProductData($request->get('product', 'original'));
 
         return view('order.create', compact('product'));
     }
 
-    // Mendapatkan data produk yang sedang promo
     private function getPromotedProducts()
     {
         return [
@@ -53,13 +52,12 @@ class OrderController extends Controller
         ];
     }
 
-    // Mendapatkan data produk
     private function getProductData($slug)
     {
         $products = [
             'durian' => [
-                'name' => 'Bika Ambon Durian',
-                'image' => 'https://www.bing.com/images/search?view=detailv2&iss=sbi&FORM=recidp&sbisrc=ImgDropper&q=gambar+bika+ambon+durian&imgurl=https://bing.com/th?id=OSK.7e0443fdf84f410c06ce71ef5b423aaa&idpbck=1&sim=4&pageurl=bfc2ef4617728ca1420a324f17c4c581&idpp=recipe&ajaxhist=0&ajaxserp=0',
+                'name' => 'Bika Ambon Ubi Ungu',
+                'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfKS8poRRQ6aQ0FrDVvN6D-Qn4VagfMEufYg&s',
                 'price' => '35000',
                 'description' => 'Aroma durian khas yang menggoda selera.',
             ],
@@ -95,30 +93,23 @@ class OrderController extends Controller
             ]
         ];
 
-        // Default to original if slug is not found
         return $products[$slug] ?? $products['original'];
     }
 
-    // Menyimpan pesanan ke database
     public function store(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
             'flavor' => 'required|string|in:original,durian,matcha,coklat,pandan,keju',
-            'product_slug' => 'required|string|in:original,durian,matcha',  // Validasi slug produk
+            'product_slug' => 'required|string|in:original,durian,matcha',
         ]);
 
-        // Dapatkan info produk
         $product = $this->getProductData($validated['product_slug']);
-        
-        // Hitung total harga
         $totalPrice = $product['price'] * $validated['quantity'];
 
-        // Simpan pesanan ke dalam database
         $order = Order::create([
             'name' => $validated['name'],
             'phone' => $validated['phone'],
@@ -130,26 +121,57 @@ class OrderController extends Controller
             'status' => 'pending',
         ]);
 
-        // Redirect ke halaman sukses dengan pesan
         return redirect()->route('order.success')->with([
-            'success' => 'Pesanan berhasil dibuat!', 
+            'success' => 'Pesanan berhasil dibuat!',
             'order' => $order
         ]);
     }
 
-    // Menampilkan halaman sukses pemesanan
     public function success()
     {
-        // Ambil data order dari session jika ada
         $order = session('order');
-        
         return view('order.success', compact('order'));
     }
-    
-    // Alias method untuk confirmation (untuk backward compatibility)
+
     public function confirmation()
     {
-        // Redirect ke success method untuk compatibility
         return $this->success();
+    }
+
+    // Halaman admin list pesanan
+    public function index()
+    {
+        $orders = Order::latest()->get();
+        return view('admin.orders.index', compact('orders'));
+    }
+
+    // Detail pesanan
+    public function show($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('admin.orders.show', compact('order'));
+    }
+
+    // ✅ Tambahkan: Form edit status pesanan
+    public function edit($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('admin.orders.edit', compact('order'));
+    }
+
+    // ✅ Sudah ada: Update status pesanan
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,shipped,completed',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->name = 'name';
+        // $order->products = 'products';
+        $order->status = $validated['status'];
+        $order->save();
+
+        return redirect()->route('admin.orders.index')->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }

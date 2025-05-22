@@ -15,7 +15,7 @@ return new class extends Migration
             $table->text('address');
             $table->integer('quantity');
             $table->string('flavor');  // Menambahkan kolom flavor
-            $table->enum('status', ['pending', 'processed', 'delivered'])->default('pending');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
