@@ -11,11 +11,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone', 15);
             $table->text('address');
             $table->integer('quantity');
-            $table->string('flavor');  // Menambahkan kolom flavor
-            $table->string('status')->default('pending');
+            $table->string('flavor');
+            $table->string('product_slug');
+            $table->integer('total_price');
+            $table->enum('status', ['pending', 'shipped', 'completed'])->default('pending');
             $table->timestamps();
         });
     }

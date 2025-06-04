@@ -10,8 +10,8 @@ class ProductController extends Controller
     {
         $promos = [
             [
-                'name' => 'Bika Ambon Durian',
-                'image' => 'https://img-global.cpcdn.com/recipes/7d1727f5e2843ae1/680x482cq70/bika-ambon-durian-foto-resep-utama.jpg',
+                'name' => 'Bika Ambon Ubi unggu',
+                'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfKS8poRRQ6aQ0FrDVvN6D-Qn4VagfMEufYg&s',
                 'description' => 'Aroma durian khas yang menggoda selera.',
                 'price' => 35000,
                 'original_price' => 45000,

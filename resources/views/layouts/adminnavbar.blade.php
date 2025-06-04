@@ -16,17 +16,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.orders.edit', $order->id) }}">Edit</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/order">Tambah</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/order">Users</a>
-                    </li>
+                    {{-- Menu khusus admin --}}
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.orders.index') }}">Pesanan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('order.create') }}">Tambah Pesanan</a>
+                        </li>
+                    @endauth
 
+                    {{-- Edit hanya muncul jika $order tersedia --}}
+                    @isset($order)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.orders.edit', $order->id) }}">Edit</a>
+                        </li>
+                    @endisset
 
+                    {{-- Profil dan Logout --}}
                     @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
