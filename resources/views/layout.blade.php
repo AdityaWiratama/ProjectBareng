@@ -20,8 +20,14 @@
                         <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/order">Pemesanan</a>
+                        <a class="nav-link" href="{{ route('order.create') }}">Pemesanan</a>
                     </li>
+
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.orders.index') }}">Admin</a>
+                    </li>
+                    @endif
 
                     @guest
                         <li class="nav-item">
