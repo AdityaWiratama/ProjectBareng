@@ -83,7 +83,7 @@
                     ['name' => 'Ubi Unggu', 'title' => 'Bika Ambon Ubi Unggu', 'price' => 32000, 'img' => 'https://img-global.cpcdn.com/recipes/d18fc3ad3e7788f7/680x482cq70/bika-ambon-ubi-ungu-pr_kuetradisionalberserat-foto-resep-utama.jpg'],
                     ['name' => 'coklat', 'title' => 'Bika Ambon Coklat', 'price' => 30000, 'img' => 'https://img-global.cpcdn.com/recipes/b6d18cb817e00d92/680x482cq70/bika-ambon-coklat-foto-resep-utama.jpg'],
                     ['name' => 'pandan', 'title' => 'Bika Ambon Pandan', 'price' => 30000, 'img' => 'https://img-global.cpcdn.com/recipes/8666eec402d3f1f0/680x482cq70/bika-ambon-pandan-foto-resep-utama.jpg'],
-                    ['name' => 'keju', 'title' => 'Bika Ambon Keju', 'price' => 32000, 'img' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxvQx8xKxv8rQxEqQjvLYzQKzJjKzZBFQNnA&s'],
+                    ['name' => 'keju', 'title' => 'Bika Ambon Keju', 'price' => 32000, 'img' => 'https://www.mbrownex.com/web/image/product.template/1542/image'],
                 ];
             @endphp
 
