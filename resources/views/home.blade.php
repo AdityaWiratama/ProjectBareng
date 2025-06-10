@@ -100,7 +100,7 @@
 <div class="container hero-section">
     <h1>Selamat Datang di <span class="text-warning">Bika Ambon Order</span></h1>
     <p>Nikmati kelembutan dan cita rasa autentik <strong>Bika Ambon</strong> langsung dari dapur kami ke rumah Anda.</p>
-    <a href="/order" class="btn btn-cta mt-3">🍰 Pesan Sekarang</a>
+    <a href="{{route('order.create')}}" class="btn btn-cta mt-3">🍰 Pesan Sekarang</a>
 </div>
 
 {{-- Mengapa Memilih Kami --}}
