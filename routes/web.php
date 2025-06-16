@@ -1,46 +1,62 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Route;
 
-Route::get('/admin/orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
-Route::put('/admin/orders/{order}', [OrderController::class, 'update'])->name('admin.orders.update');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+| Ini adalah route utama untuk aplikasi Laravel Bika Ambon.
+*/
 
+// =======================
+// Public / User Routes
+// =======================
 
+// Halaman utama (menampilkan produk)
 Route::get('/', [ProductController::class, 'home'])->name('home');
+
+// Form pemesanan (user)
 Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
 Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
 Route::get('/order/success', [OrderController::class, 'success'])->name('order.success');
 
+// =======================
+// User Dashboard & Profil (Login biasa)
+// =======================
 Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
-});
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::prefix('admin')->name('admin.')->group(function () {
-        // List semua order (halaman admin)
-        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-
-        // Detail order
-        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-
-        // Update order (misal update status)
-        Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
-
-        // Hapus order
-        Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
 });
 
-// Route bawaan untuk autentikasi (login, register, dll)
+// =======================
+// Admin Routes
+// =======================
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // CRUD pesanan (order) - khusus admin
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
+    Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+    // CRUD produk
+    Route::resource('products', ProductController::class);
+});
+
+// =======================
+// Authentication Routes (Login/Register)
+// =======================
 require __DIR__.'/auth.php';

@@ -28,7 +28,6 @@
                     <label for="product_slug" class="form-label fw-bold">Pilih Produk</label>
                     <select class="form-select" id="product_slug" name="product_slug" required>
                         <option value="bika_ambon">Bika Ambon</option>
-                        <!-- Tambahkan produk lain jika ada -->
                     </select>
                 </div>
 
@@ -91,7 +90,7 @@
                 <div class="col-md-4 mb-4">
                     <a href="#order-form" onclick="selectFlavor('{{ $product['name'] }}')">
                         <div class="card shadow border-0">
-                            <img src="{{ $product['img'] }}" class="card-img-top" alt="{{ $product['title'] }}">
+                            <img src="{{ $product['img'] }}" class="card-img-top img-fluid" alt="{{ $product['title'] }}" style="height: 250px; width: 100%; object-fit: cover; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
                             <div class="card-body text-center">
                                 <h5 class="card-title">{{ $product['title'] }}</h5>
                                 <p class="text-muted">Rasa lezat dan khas untuk segala suasana.</p>
