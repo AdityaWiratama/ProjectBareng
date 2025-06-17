@@ -2,6 +2,9 @@
 
 @section('title', 'Manajemen Produk')
 
+@section('hideFooter')
+@endsection
+
 @php
     use Illuminate\Support\Str;
 @endphp
@@ -10,7 +13,7 @@
 <div class="container mt-5">
     <h1 class="mb-4">Manajemen Produk</h1>
 
-    {{-- Flash Message (opsional) --}}
+    {{-- Flash Message --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif

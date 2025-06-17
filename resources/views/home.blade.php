@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Home - Bika Ambon Order')
+@section('title', 'Home - Bika Ambon Kita')
 
 @section('content')
 <style>
@@ -8,22 +8,32 @@
         background-color: #fffdf7;
         font-family: 'Poppins', sans-serif;
     }
-    .hero-section {
-        background: linear-gradient(135deg, #fff8dc, #fff3e0);
-        padding: 3rem 1rem;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
-        text-align: center;
+
+    /* Hero Banner Baru */
+    .hero-banner {
+        position: relative;
+         background-image: url('https://www.shutterstock.com/image-photo/bika-ambon-indonesian-honeycomb-cake-600nw-1810413700.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 90vh;
+        border-radius: 0 0 30px 30px;
+        overflow: hidden;
     }
-    .hero-section h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #5d4037;
+
+    .hero-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 4rem 2rem;
+        background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.9) 100%);
     }
-    .hero-section p {
-        font-size: 1.2rem;
-        color: #6d4c41;
+
+    .hero-overlay h1,
+    .hero-overlay p {
+        color: #fff;
     }
+
     .btn-cta {
         background-color: #ffb300;
         color: #fff;
@@ -33,9 +43,11 @@
         text-decoration: none;
         transition: 0.3s;
     }
+
     .btn-cta:hover {
         background-color: #ffa000;
     }
+
     .section-title {
         font-weight: 700;
         font-size: 1.8rem;
@@ -43,11 +55,13 @@
         margin-bottom: 1rem;
         text-align: center;
     }
+
     .why-card li {
         padding: 0.5rem 0;
         font-weight: 500;
         color: #4e342e;
     }
+
     .card-custom {
         border: none;
         border-radius: 15px;
@@ -59,17 +73,21 @@
         flex-direction: column;
         justify-content: space-between;
     }
+
     .card-custom:hover {
         transform: translateY(-5px);
     }
+
     .card-img-top {
         height: 220px;
         object-fit: cover;
     }
+
     .text-promo {
         color: #ff7043;
         font-weight: 700;
     }
+
     .btn-order {
         background-color: #ffb300;
         color: #fff;
@@ -78,16 +96,21 @@
         padding: 10px 24px;
         transition: 0.3s;
     }
+
     .btn-order:hover {
         background-color: #ffa000;
     }
 </style>
 
-{{-- Hero Section --}}
-<div class="container hero-section">
-    <h1>Selamat Datang di <span class="text-warning">Bika Ambon Order</span></h1>
-    <p>Nikmati kelembutan dan cita rasa autentik <strong>Bika Ambon</strong> langsung dari dapur kami ke rumah Anda.</p>
-    <a href="{{ route('order.create') }}" class="btn btn-cta mt-3">🍰 Pesan Sekarang</a>
+{{-- Hero Section Baru --}}
+<div class="hero-banner mb-5">
+    <div class="hero-overlay text-white text-start">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Bika Ambon Asli & Lembut</h1>
+            <p class="lead">Dibuat dengan resep tradisional untuk rasa yang tak terlupakan.</p>
+            <a href="{{ route('order.create') }}" class="btn btn-cta mt-3">Pesan Sekarang</a>
+        </div>
+    </div>
 </div>
 
 {{-- Mengapa Memilih Kami --}}
@@ -143,7 +166,7 @@
 {{-- Varian Rasa --}}
 @if($variants->count())
     <div class="container mt-5">
-        <h2 class="section-title">🍯 Varian Rasa Bika Ambon</h2>
+        <h2 class="section-title">Varian Rasa Bika Ambon</h2>
         <div class="row mt-4">
             @foreach ($variants as $variant)
                 <div class="col-md-4 mb-4 d-flex">
@@ -167,4 +190,3 @@
     </div>
 @endif
 @endsection
-

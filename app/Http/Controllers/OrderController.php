@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -108,45 +110,43 @@ class OrderController extends Controller
         return $products[$slug] ?? $products['original'];
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
-            'flavor' => 'required|string|in:original,Red Velvet,Ubi Unggu,coklat,pandan,keju,durian,matcha',
-        ]);
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+        'address' => 'required|string|max:255',
+        'quantity' => 'required|integer|min:1',
+        'flavor' => 'required|string',
+    ]);
 
-        // Set default product_slug jika tidak ada
-        $productSlug = $request->get('product_slug', 'original');
-        $product = $this->getProductData($productSlug);
-        $totalPrice = intval($product['price']) * $validated['quantity'];
+    // Konversi flavor jadi slug (contoh: "Red Velvet" => "red_velvet")
+    $productSlug = strtolower(str_replace(' ', '_', $validated['flavor']));
 
-        $order = Order::create([
-            'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'address' => $validated['address'],
-            'quantity' => $validated['quantity'],
-            'flavor' => $validated['flavor'],
-            'product_slug' => $productSlug,
-            'total_price' => $totalPrice,
-            'status' => 'pending',
-        ]);
+    $product = $this->getProductData($productSlug);
+    $totalPrice = intval($product['price']) * $validated['quantity'];
 
-        // Redirect dengan data order dalam session
-        return redirect()->route('order.success')->with('order', $order);
-    }
+    $order = Order::create([
+        'name' => $validated['name'],
+        'phone' => $validated['phone'],
+        'address' => $validated['address'],
+        'quantity' => $validated['quantity'],
+        'flavor' => $validated['flavor'],
+        'product_slug' => $productSlug,
+        'total_price' => $totalPrice,
+        'status' => 'pending',
+    ]);
 
+    return redirect()->route('order.success')->with('order', $order);
+}
     public function success()
     {
         $order = session('order');
-        
-        // Jika tidak ada order di session, redirect ke home
+
         if (!$order) {
             return redirect()->route('home')->with('error', 'Data pesanan tidak ditemukan.');
         }
-        
+
         return view('order.success', compact('order'));
     }
 
@@ -155,28 +155,24 @@ class OrderController extends Controller
         return $this->success();
     }
 
-    // Halaman admin list pesanan
     public function index()
     {
         $orders = Order::latest()->get();
         return view('admin.orders.index', compact('orders'));
     }
 
-    // Detail pesanan
     public function show($id)
     {
         $order = Order::findOrFail($id);
         return view('admin.orders.show', compact('order'));
     }
 
-    // Form edit status pesanan
     public function edit($id)
     {
         $order = Order::findOrFail($id);
         return view('admin.orders.edit', compact('order'));
     }
 
-    // Update status pesanan
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -188,5 +184,16 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->route('admin.orders.index')->with('success', 'Status pesanan berhasil diperbarui.');
+    }
+
+    public function history()
+    {
+        $orders = Order::where('phone', 'like', '%' . (request()->user()->phone ?? '') . '%')->latest()->get();
+
+        foreach ($orders as $order) {
+            $order->product = $this->getProductData($order->product_slug);
+        }
+
+        return view('order.history', compact('orders'));
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class UserApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan semua data user.
      */
     public function index()
     {
@@ -19,7 +19,7 @@ class UserApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan user baru ke database.
      */
     public function store(Request $request)
     {
@@ -27,6 +27,7 @@ class UserApiController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'role'     => 'required|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -38,16 +39,17 @@ class UserApiController extends Controller
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => bcrypt($request->password),
+                'role'     => $request->role,
             ]);
 
             return (new UserResource($user))->response()->setStatusCode(201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Something went wrong'], 500);
+            return response()->json(['message' => 'Something went wrong', 'error' => $e->getMessage()], 500);
         }
     }
 
     /**
-     * Display the specified resource.
+     * Tampilkan data user berdasarkan ID.
      */
     public function show(User $user)
     {
@@ -55,7 +57,7 @@ class UserApiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update data user berdasarkan ID.
      */
     public function update(Request $request, User $user)
     {
@@ -63,6 +65,7 @@ class UserApiController extends Controller
             'name'     => 'sometimes|required|string|max:255',
             'email'    => 'sometimes|required|email|unique:users,email,' . $user->id,
             'password' => 'sometimes|required|min:6',
+            'role'     => 'sometimes|required|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -74,16 +77,17 @@ class UserApiController extends Controller
                 'name'     => $request->name ?? $user->name,
                 'email'    => $request->email ?? $user->email,
                 'password' => $request->filled('password') ? bcrypt($request->password) : $user->password,
+                'role'     => $request->role ?? $user->role,
             ]);
 
             return new UserResource($user);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Update failed'], 500);
+            return response()->json(['message' => 'Update failed', 'error' => $e->getMessage()], 500);
         }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus data user berdasarkan ID.
      */
     public function destroy(User $user)
     {
@@ -91,7 +95,7 @@ class UserApiController extends Controller
             $user->delete();
             return response()->json(['message' => 'User deleted successfully']);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Deletion failed'], 500);
+            return response()->json(['message' => 'Deletion failed', 'error' => $e->getMessage()], 500);
         }
     }
 }

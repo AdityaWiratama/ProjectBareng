@@ -5,19 +5,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-| Ini adalah route utama untuk aplikasi Laravel Bika Ambon.
-*/
-
-// =======================
-// Public / User Routes
-// =======================
-
-// Halaman utama (menampilkan produk)
+Route::get('/products', [ProductController::class, 'allProducts'])->name('products.all');
 Route::get('/', [ProductController::class, 'home'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/riwayat', [OrderController::class, 'history'])->name('order.history');
+});
+
 
 // Form pemesanan (user)
 Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
@@ -55,6 +49,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // CRUD produk
     Route::resource('products', ProductController::class);
 });
+
 
 // =======================
 // Authentication Routes (Login/Register)
