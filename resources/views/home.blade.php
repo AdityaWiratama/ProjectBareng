@@ -12,7 +12,7 @@
     /* Hero Banner Baru */
     .hero-banner {
         position: relative;
-         background-image: url('https://www.shutterstock.com/image-photo/bika-ambon-indonesian-honeycomb-cake-600nw-1810413700.jpg');
+         background-image: url('https://i.pinimg.com/736x/92/65/e8/9265e83f363be902a5068fc0f7cf78b0.jpg');
         background-size: cover;
         background-position: center;
         height: 90vh;

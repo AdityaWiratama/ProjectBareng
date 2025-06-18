@@ -86,55 +86,51 @@
     @if (!View::hasSection('hideFooter'))
     <!-- Footer -->
     <footer class="bg-dark text-white pt-5 pb-4" style="background: linear-gradient(135deg, #1b1b1b, #2e2e2e);">
-        <div class="container text-center text-md-start">
-            <div class="row text-center text-md-start">
+    <div class="container text-center text-md-start">
+        <div class="row text-center text-md-start align-items-start">
 
-                <!-- Tentang Kami -->
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Bika Ambon Order</h5>
-                    <p class="small">Nikmati kelembutan dan kelezatan Bika Ambon asli, dibuat setiap hari dengan resep tradisional dan bahan berkualitas terbaik langsung dari dapur kami ke rumah Anda.</p>
+            <!-- Logo dan Sosial Media -->
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h4 class="text-warning fw-bold">Bika Ambon</h4>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/ditz.wr?igsh=MWptYXpobW94cWhp" class="text-white"><i class="fab fa-instagram"></i></a>
                 </div>
-
-                <!-- Kontak -->
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Kontak</h5>
-                    <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-warning"></i>Jl. Masjid Raya No. 123, Jakarta</p>
-                    <p class="mb-2"><i class="fas fa-phone me-2 text-warning"></i>+628535951066</p>
-                    <p><i class="fas fa-envelope me-2 text-warning"></i>adityawiratama078@gmail.com</p>
-                </div>
-
-                <!-- Sosial Media -->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Ikuti Kami</h5>
-                    <a href="https://www.instagram.com/ditz.wr?igsh=MWptYXpobW94cWhp" class="text-white text-decoration-none d-block mb-2">
-                        <i class="fab fa-instagram me-2 text-warning"></i>Instagram
-                    </a>
-                    <a href="#" class="text-white text-decoration-none d-block mb-2">
-                        <i class="fab fa-whatsapp me-2 text-warning"></i>WhatsApp
-                    </a>
-                </div>
-
-                <!-- Jam Buka -->
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Jam Operasional</h5>
-                    <p class="mb-2"><i class="fas fa-clock me-2 text-warning"></i>Senin - Sabtu: 08:00 - 18:00</p>
-                    <p><i class="fas fa-calendar-times me-2 text-warning"></i>Minggu & Libur: Tutup</p>
-                </div>
-
             </div>
 
-            <hr class="mb-4 text-light">
+            <!-- Kontak -->
+            <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+                <h5 class="text-uppercase fw-bold text-warning mb-3">Contact Us</h5>
+                <p class="small mb-1"><i class="fas fa-envelope me-2 text-warning"></i>adityawiratama078@gmail.com</p>
+                <p class="small mb-1"><i class="fas fa-map-marker-alt me-2 text-warning"></i>Jl. Masjid Raya No.123, Jakarta</p>
+                <p class="small mb-1"><i class="fas fa-phone me-2 text-warning"></i>+62 853 5951 066</p>
+            </div>
 
-            <div class="row align-items-center">
-                <div class="col-md-7 col-lg-8">
-                    <p class="mb-0 small text-white">© 2024 Bika Ambon Order. All Rights Reserved.</p>
-                </div>
-                <div class="col-md-5 col-lg-4 text-end">
-                    <p class="mb-0 small text-white">Design by <span class="text-warning">Aditya Wiratama</span></p>
-                </div>
+            <!-- Subscribe -->
+            <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
+                <h5 class="text-uppercase fw-bold text-warning mb-3">Subscribe</h5>
+                <p class="small">Enter your email to get notified about our new flavors & promos</p>
+                <form class="d-flex mt-2" onsubmit="event.preventDefault(); alert('Terima kasih sudah berlangganan!');">
+                    <input type="email" class="form-control me-2 bg-secondary text-white border-0" placeholder="Email" required>
+                    <button class="btn btn-warning text-dark" type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+
+        </div>
+
+        <hr class="my-4 text-light">
+
+        <div class="row">
+            <div class="col-md-6">
+                <p class="small mb-0 text-white">© 2024 Bika Ambon Order. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <p class="small mb-0 text-white">Design by <span class="text-warning">Aditya Wiratama</span></p>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
     @endif
 
     <!-- Bootstrap & FontAwesome -->

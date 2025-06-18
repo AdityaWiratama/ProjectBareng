@@ -12,6 +12,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat', [OrderController::class, 'history'])->name('order.history');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/success', [OrderController::class, 'success'])->name('order.success');
+});
+
 
 // Form pemesanan (user)
 Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');

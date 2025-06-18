@@ -57,88 +57,58 @@ class OrderController extends Controller
     private function getProductData($slug)
     {
         $products = [
-            'durian' => [
-                'name' => 'Bika Ambon Durian',
-                'image' => 'https://img-global.cpcdn.com/recipes/bb61eb8e38cf85a7/680x482cq70/bika-ambon-durian-ekonomis-foto-resep-utama.jpg',
-                'price' => '35000',
-                'description' => 'Aroma durian khas yang menggoda selera.',
-            ],
-            'matcha' => [
-                'name' => 'Bika Ambon Matcha',
-                'image' => 'https://img-global.cpcdn.com/recipes/2a0fdf18c502cc94/680x482cq70/bika-ambon-matcha-foto-resep-utama.jpg',
-                'price' => '32000',
-                'description' => 'Rasa unik matcha untuk pecinta teh hijau.',
-            ],
             'original' => [
                 'name' => 'Bika Ambon Original',
-                'image' => 'https://pemerintahsumut.wordpress.com/wp-content/uploads/2014/12/bika-ambon.jpg',
-                'price' => '28000',
-                'description' => 'Rasa klasik yang tak pernah gagal memanjakan lidah.',
-            ],
-            'coklat' => [
-                'name' => 'Bika Ambon Coklat',
-                'image' => 'https://img-global.cpcdn.com/recipes/b6d18cb817e00d92/680x482cq70/bika-ambon-coklat-foto-resep-utama.jpg',
-                'price' => '30000',
-                'description' => 'Kelezatan coklat berpadu dengan tekstur lembut Bika Ambon.',
-            ],
-            'pandan' => [
-                'name' => 'Bika Ambon Pandan',
-                'image' => 'https://img-global.cpcdn.com/recipes/8666eec402d3f1f0/680x482cq70/bika-ambon-pandan-foto-resep-utama.jpg',
-                'price' => '30000',
-                'description' => 'Aroma harum pandan yang menggugah selera.',
+                'price' => 28000,
             ],
             'keju' => [
                 'name' => 'Bika Ambon Keju',
-                'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxvQx8xKxv8rQxEqQjvLYzQKzJjKzZBFQNnA&s',
-                'price' => '32000',
-                'description' => 'Taburan keju melimpah, bikin makin nikmat!',
+                'price' => 32000,
             ],
             'red_velvet' => [
                 'name' => 'Bika Ambon Red Velvet',
-                'image' => 'https://img-global.cpcdn.com/recipes/c0acf7368481ec21/680x482cq70/bika-ambon-red-velvet-gluten-free-foto-resep-utama.jpg',
-                'price' => '35000',
-                'description' => 'Warna merah cantik dengan rasa yang lembut dan manis.',
+                'price' => 35000,
             ],
-            'ubi_unggu' => [
-                'name' => 'Bika Ambon Ubi Unggu',
-                'image' => 'https://img-global.cpcdn.com/recipes/d18fc3ad3e7788f7/680x482cq70/bika-ambon-ubi-ungu-pr_kuetradisionalberserat-foto-resep-utama.jpg',
-                'price' => '32000',
-                'description' => 'Rasa manis alami ubi unggu yang kaya nutrisi.',
-            ]
+            'pandan' => [
+                'name' => 'Bika Ambon Pandan',
+                'price' => 30000,
+            ],
         ];
 
-        return $products[$slug] ?? $products['original'];
+        return $products[$slug] ?? ['name' => 'Produk Tidak Dikenal', 'price' => 0];
     }
 
-   public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
-        'address' => 'required|string|max:255',
-        'quantity' => 'required|integer|min:1',
-        'flavor' => 'required|string',
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:1',
+            'flavor' => 'required|string',
+        ]);
 
-    // Konversi flavor jadi slug (contoh: "Red Velvet" => "red_velvet")
-    $productSlug = strtolower(str_replace(' ', '_', $validated['flavor']));
+        // Konversi flavor jadi slug (contoh: "Red Velvet" => "red_velvet")
+        $productSlug = strtolower(str_replace(' ', '_', $validated['flavor']));
 
-    $product = $this->getProductData($productSlug);
-    $totalPrice = intval($product['price']) * $validated['quantity'];
+        $product = $this->getProductData($productSlug);
+        $totalPrice = intval($product['price']) * $validated['quantity'];
 
-    $order = Order::create([
-        'name' => $validated['name'],
-        'phone' => $validated['phone'],
-        'address' => $validated['address'],
-        'quantity' => $validated['quantity'],
-        'flavor' => $validated['flavor'],
-        'product_slug' => $productSlug,
-        'total_price' => $totalPrice,
-        'status' => 'pending',
-    ]);
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'name' => $validated['name'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'quantity' => $validated['quantity'],
+            'flavor' => $validated['flavor'],
+            'product_slug' => $productSlug,
+            'total_price' => $totalPrice,
+            'status' => 'pending',
+        ]);
 
-    return redirect()->route('order.success')->with('order', $order);
-}
+        return redirect()->route('order.success')->with('order', $order);
+    }
+
     public function success()
     {
         $order = session('order');
@@ -188,12 +158,22 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = Order::where('phone', 'like', '%' . (request()->user()->phone ?? '') . '%')->latest()->get();
+        $orders = Order::where('user_id', auth()->id())->latest()->get();
 
         foreach ($orders as $order) {
             $order->product = $this->getProductData($order->product_slug);
         }
 
         return view('order.history', compact('orders'));
+    }
+
+    public function destroy(Order $order) // Menggunakan Route Model Binding
+    {
+        $order->delete(); // Menghapus data order
+
+        // Redirect atau berikan respons setelah penghapusan
+        return redirect()->back()->with('success', 'Order berhasil dihapus!');
+        // Atau:
+        // return response()->json(['message' => 'Order berhasil dihapus!']);
     }
 }
